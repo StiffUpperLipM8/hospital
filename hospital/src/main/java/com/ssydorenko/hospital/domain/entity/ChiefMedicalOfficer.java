@@ -1,11 +1,9 @@
-package com.ssydorenko.hospital.entity;
+package com.ssydorenko.hospital.domain.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import java.util.List;
 
 
 @Entity
@@ -13,7 +11,5 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class ChiefMedicalOfficer extends AbstractUser {
 
-    @OneToMany
-    private List<DoctorSchedule> doctorSchedules;
 
 }

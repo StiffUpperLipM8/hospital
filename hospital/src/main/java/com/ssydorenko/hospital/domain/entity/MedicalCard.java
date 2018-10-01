@@ -1,4 +1,4 @@
-package com.ssydorenko.hospital.entity;
+package com.ssydorenko.hospital.domain.entity;
 
 import lombok.Data;
 

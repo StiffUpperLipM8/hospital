@@ -1,4 +1,4 @@
-package com.ssydorenko.hospital.entity;
+package com.ssydorenko.hospital.domain.entity;
 
 import lombok.Data;
 
@@ -12,22 +12,19 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-public class MedicalCardRecord {
+public class VisitRequest {
 
     @Id
     @GeneratedValue
     private long id;
 
-    @Column(nullable = false)
-    private LocalDateTime dateTime;
-
-    @Column(nullable = false)
-    private String text;
-
     @ManyToOne
-    private Doctor doctor;
+    private DoctorSchedule doctorSchedule;
 
-    @ManyToOne
-    private MedicalCard medicalCard;
+    @Column(nullable = false)
+    private String reason;
+
+    @Column
+    private LocalDateTime desiredDatetime;
 
 }
