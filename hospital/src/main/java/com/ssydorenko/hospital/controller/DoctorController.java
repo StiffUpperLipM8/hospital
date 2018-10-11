@@ -20,6 +20,10 @@ public class DoctorController {
     public List<DoctorDto> getDoctors() {
         return doctorService.getDoctors();
     }
-
+//
+//    @PostMapping
+//    public void addDoctor(@ModelAttribute DoctorDto doctorDto) {
+//
+//    }
 
 }
