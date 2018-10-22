@@ -1,15 +1,14 @@
 package com.ssydorenko.hospital.domain.dto;
 
-import com.ssydorenko.hospital.domain.entity.DoctorSchedule;
+import lombok.Data;
 
 
+@Data
 public class DoctorDto {
 
     private String firstName;
 
     private String lastName;
-
-    private DoctorSchedule doctorSchedule;
 
     private String doctorDescription;
 

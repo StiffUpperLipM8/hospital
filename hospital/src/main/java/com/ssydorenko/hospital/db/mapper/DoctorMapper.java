@@ -8,8 +8,8 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel="spring")
 public interface DoctorMapper {
 
-    Doctor toEntity(DoctorDto doctorDto);
+    Doctor toEntity(DoctorDto dto);
 
-    DoctorDto toDto(Doctor doctor);
+    DoctorDto toDto(Doctor entity);
 
 }

@@ -19,7 +19,7 @@ public class VisitRequest {
     private long id;
 
     @ManyToOne
-    private DoctorSchedule doctorSchedule;
+    private Doctor doctor;
 
     @Column(nullable = false)
     private String reason;

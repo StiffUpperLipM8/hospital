@@ -1,22 +1,33 @@
 package com.ssydorenko.hospital.domain.entity;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class Doctor extends AbstractUser {
+public class Doctor {
 
-    @OneToOne
-    private DoctorSchedule doctorSchedule;
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
 
     @Column(nullable = false)
     private String doctorDescription;
+
+    @OneToMany
+    List<VisitRequest> schedule;
 
 }
