@@ -41,5 +41,7 @@ dependencies {
 	testCompile('org.springframework.security:spring-security-test')
 	compile 'org.mapstruct:mapstruct-jdk8:1.1.0.Final'
 	compile 'org.mapstruct:mapstruct-processor:1.1.0.Final'
+	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
+
 
 }
