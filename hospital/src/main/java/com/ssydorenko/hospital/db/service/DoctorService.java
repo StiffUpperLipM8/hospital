@@ -1,8 +1,9 @@
 package com.ssydorenko.hospital.db.service;
 
-import com.ssydorenko.hospital.db.mapper.DoctorMapper;
-import com.ssydorenko.hospital.db.mapper.VisitRequestMapper;
+import com.ssydorenko.hospital.utils.mapper.DoctorMapper;
+import com.ssydorenko.hospital.utils.VisitRequestMapper;
 import com.ssydorenko.hospital.db.repository.DoctorRepository;
+import com.ssydorenko.hospital.db.repository.VisitRequestRepository;
 import com.ssydorenko.hospital.domain.dto.DoctorDto;
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,30 +25,43 @@ public class DoctorService {
     @Autowired
     private VisitRequestMapper visitRequestMapper;
 
+    @Autowired
+    private VisitRequestRepository visitRequestRepository;
+
 
     public List<DoctorDto> getDoctors() {
+
         return doctorRepository.findAll()
                 .stream()
                 .map(doctorMapper::toDto)
                 .collect(Collectors.toList());
     }
 
+
     public DoctorDto getDoctorById(long doctorId) {
+
         return doctorMapper.toDto(doctorRepository.getOne(doctorId));
     }
 
+
     public List<VisitRequestDto> getDoctorScheduleByDoctorId(long doctorId) {
+
         return doctorRepository.getOne(doctorId).getSchedule()
                 .stream()
                 .map(visitRequestMapper::toDto)
                 .collect(Collectors.toList());
     }
 
+
     public void addDoctor(DoctorDto doctorDto) {
+
         doctorRepository.save(doctorMapper.toEntity(doctorDto));
     }
 
+    public void deleteDoctorById(long doctorId) {
 
+        doctorRepository.deleteById(doctorId);
+    }
 
 
 }

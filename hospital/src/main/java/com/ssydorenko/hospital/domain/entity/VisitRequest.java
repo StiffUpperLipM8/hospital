@@ -1,5 +1,6 @@
 package com.ssydorenko.hospital.domain.entity;
 
+import com.ssydorenko.hospital.domain.enums.VisitRequestStatus;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -18,13 +19,16 @@ public class VisitRequest {
     @GeneratedValue
     private long id;
 
-    @ManyToOne
-    private Doctor doctor;
-
     @Column(nullable = false)
     private String reason;
 
     @Column
     private LocalDateTime desiredDatetime;
+
+    @Column(nullable = false)
+    private long doctorId;
+
+    @Column
+    private VisitRequestStatus status;
 
 }

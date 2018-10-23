@@ -1,4 +1,4 @@
-package com.ssydorenko.hospital.db.mapper;
+package com.ssydorenko.hospital.utils.mapper;
 
 import com.ssydorenko.hospital.domain.dto.DoctorDto;
 import com.ssydorenko.hospital.domain.entity.Doctor;

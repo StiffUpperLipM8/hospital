@@ -1,4 +1,4 @@
-package com.ssydorenko.hospital.db.mapper;
+package com.ssydorenko.hospital.utils.converter;
 
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
 import com.ssydorenko.hospital.domain.entity.VisitRequest;

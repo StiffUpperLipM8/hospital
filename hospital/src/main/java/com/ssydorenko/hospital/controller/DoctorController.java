@@ -4,6 +4,7 @@ import com.ssydorenko.hospital.db.service.DoctorService;
 import com.ssydorenko.hospital.domain.dto.DoctorDto;
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,25 +25,35 @@ public class DoctorController {
 
     @GetMapping
     public List<DoctorDto> getDoctors() {
+
         return doctorService.getDoctors();
     }
 
+
     @GetMapping("/{doctorId}")
     public DoctorDto getDoctorById(@PathVariable long doctorId) {
+
         return doctorService.getDoctorById(doctorId);
     }
 
+
     @GetMapping("/{doctorId}/schedule")
     public List<VisitRequestDto> getDoctorSchedule(@PathVariable long doctorId) {
+
         return doctorService.getDoctorScheduleByDoctorId(doctorId);
     }
 
+
     @PostMapping
     public void addDoctor(@RequestBody DoctorDto doctorDto) {
+
         doctorService.addDoctor(doctorDto);
     }
 
 
+    @DeleteMapping("/{doctorId}")
+    public void deleteDoctor(@PathVariable long doctorId) {
 
-
+        doctorService.deleteDoctorById(doctorId);
+    }
 }
