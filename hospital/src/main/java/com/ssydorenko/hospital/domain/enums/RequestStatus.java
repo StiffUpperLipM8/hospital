@@ -1,6 +1,6 @@
 package com.ssydorenko.hospital.domain.enums;
 
-public enum VisitRequestStatus {
+public enum RequestStatus {
 
     NEW,
     APPROVED,

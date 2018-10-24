@@ -3,10 +3,15 @@ package com.ssydorenko.hospital.db.service;
 import com.ssydorenko.hospital.db.repository.VisitRequestRepository;
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
 import com.ssydorenko.hospital.domain.entity.VisitRequest;
-import com.ssydorenko.hospital.domain.enums.VisitRequestStatus;
+import com.ssydorenko.hospital.domain.entity.VisitRequestStatus;
+import com.ssydorenko.hospital.domain.enums.RequestStatus;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ssydorenko.hospital.utils.converter.*;
+import com.ssydorenko.hospital.utils.mapper.*;
+
+import java.time.LocalDateTime;
+
 
 @Service
 public class VisitRequestService {
@@ -22,7 +27,11 @@ public class VisitRequestService {
 
         VisitRequest visitRequest = visitRequestMapper.toEntity(visitRequestDto);
         visitRequest.setDoctorId(doctorId);
-        visitRequest.setStatus(VisitRequestStatus.NEW);
+
+        VisitRequestStatus visitRequestStatus = new VisitRequestStatus();
+        visitRequestStatus.setStatus(RequestStatus.NEW);
+        visitRequestStatus.setLastStatusChangeDateTime(LocalDateTime.now());
+
         visitRequestRepository.save(visitRequest);
     }
 
@@ -39,11 +48,24 @@ public class VisitRequestService {
     }
 
 
-    public void changeStatusOfVisitRequest(long requestId, VisitRequestStatus status) {
+    public void changeStatusOfVisitRequest(long requestId, VisitRequestDto visitRequestDto) {
 
         VisitRequest visitRequest = visitRequestRepository.getOne(requestId);
-        visitRequest.setStatus(status);
+
+        VisitRequestStatus visitRequestStatus = visitRequest.getVisitRequestStatus();
+        visitRequestStatus.setStatus(visitRequestDto.getStatus());
+        visitRequestStatus.setLastStatusChangeDateTime(LocalDateTime.now());
+
+        if (isNotBlank(visitRequestDto.getStatusDescription())) {
+            visitRequestStatus.setStatusDescription(visitRequestDto.getStatusDescription());
+        }
+
         visitRequestRepository.save(visitRequest);
+    }
+
+    private boolean isNotBlank(String text) {
+
+        return StringUtils.isNotBlank(text);
     }
 
 }

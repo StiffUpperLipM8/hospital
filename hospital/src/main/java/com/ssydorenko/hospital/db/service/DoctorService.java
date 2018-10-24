@@ -1,7 +1,6 @@
 package com.ssydorenko.hospital.db.service;
 
-import com.ssydorenko.hospital.utils.mapper.DoctorMapper;
-import com.ssydorenko.hospital.utils.VisitRequestMapper;
+import com.ssydorenko.hospital.utils.mapper.*;
 import com.ssydorenko.hospital.db.repository.DoctorRepository;
 import com.ssydorenko.hospital.db.repository.VisitRequestRepository;
 import com.ssydorenko.hospital.domain.dto.DoctorDto;

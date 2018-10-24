@@ -42,6 +42,6 @@ dependencies {
 	compile 'org.mapstruct:mapstruct-jdk8:1.2.0.Final'
 	compile 'org.mapstruct:mapstruct-processor:1.2.0.Final'
 	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
-
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
 
 }

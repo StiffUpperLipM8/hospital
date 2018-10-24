@@ -2,7 +2,7 @@ package com.ssydorenko.hospital.controller;
 
 import com.ssydorenko.hospital.db.service.VisitRequestService;
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
-import com.ssydorenko.hospital.domain.enums.VisitRequestStatus;
+import com.ssydorenko.hospital.domain.enums.RequestStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,11 +28,11 @@ public class VisitRequestController {
     }
 
 
-    @PutMapping("{requestId}/{status}")
+    @PutMapping("{requestId}")
     public void changeStatusOfVisitRequest(@PathVariable long requestId,
-            @PathVariable VisitRequestStatus status) {
+                                           @RequestBody VisitRequestDto visitRequestDto) {
 
-        visitRequestService.changeStatusOfVisitRequest(requestId, status);
+        visitRequestService.changeStatusOfVisitRequest(requestId, visitRequestDto);
     }
 
     @GetMapping("{requestId}")

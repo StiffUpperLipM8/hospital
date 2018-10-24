@@ -1,6 +1,6 @@
 package com.ssydorenko.hospital.domain.dto;
 
-import com.ssydorenko.hospital.domain.enums.VisitRequestStatus;
+import com.ssydorenko.hospital.domain.enums.RequestStatus;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -13,6 +13,10 @@ public class VisitRequestDto {
 
     private LocalDateTime desiredDatetime;
 
-    private VisitRequestStatus status;
+    private RequestStatus status;
+
+    private LocalDateTime lastStatusChangeDateTime;
+
+    private String statusDescription;
 
 }
