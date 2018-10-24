@@ -21,7 +21,7 @@ public class VisitRequestController {
     private VisitRequestService visitRequestService;
 
 
-    @PostMapping("/doctor-id/{doctorId}")
+    @PostMapping("/doctor/{doctorId}")
     public void addVisitRequest(@PathVariable long doctorId, @RequestBody VisitRequestDto visitRequestDto) {
 
         visitRequestService.addVisitRequest(doctorId, visitRequestDto);
