@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 @Data
 public class VisitRequestDto {
 
+    private long id;
+
     private String reason;
 
     private LocalDateTime desiredDatetime;

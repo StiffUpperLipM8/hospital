@@ -3,13 +3,9 @@ package com.ssydorenko.hospital.controller;
 import com.ssydorenko.hospital.db.service.api.PatientService;
 import com.ssydorenko.hospital.domain.dto.PatientDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -18,6 +14,13 @@ public class PatientController {
 
     @Autowired
     private PatientService patientService;
+
+
+    @GetMapping
+    public List<PatientDto> getAllPatients() {
+
+        return patientService.getAllPatients();
+    }
 
 
     @GetMapping("{patientId}")
@@ -31,6 +34,12 @@ public class PatientController {
     public void addPatient(@RequestBody PatientDto patientDto) {
 
         patientService.addPatient(patientDto);
+    }
+
+    @PutMapping("{patientId}")
+    public void updatePatientDescription(@PathVariable long patientId, @RequestBody String description) {
+
+        patientService.updatePatientDescription(patientId, description);
     }
 
 

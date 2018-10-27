@@ -26,7 +26,7 @@ public class MedicalCard {
     @Column(nullable = false)
     private LocalDate dateOfRegistration;
 
-    @OneToMany(mappedBy = "medicalCard", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "medicalCardId", cascade = CascadeType.ALL)
     private List<MedicalCardRecord> records;
 
 }

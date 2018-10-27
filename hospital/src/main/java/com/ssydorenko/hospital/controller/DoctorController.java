@@ -56,4 +56,5 @@ public class DoctorController {
 
         doctorService.deleteDoctorById(doctorId);
     }
+
 }

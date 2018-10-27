@@ -24,10 +24,10 @@ public class MedicalCardRecord {
     @Column(nullable = false)
     private String text;
 
-    @ManyToOne
-    private Doctor doctor;
+    @Column(nullable = false)
+    private long doctorId;
 
-    @ManyToOne
-    private MedicalCard medicalCard;
+    @Column(nullable = false)
+    private long medicalCardId;
 
 }

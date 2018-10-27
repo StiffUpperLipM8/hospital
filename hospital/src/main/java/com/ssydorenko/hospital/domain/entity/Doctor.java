@@ -19,7 +19,7 @@ public class Doctor {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
     private String firstName;
