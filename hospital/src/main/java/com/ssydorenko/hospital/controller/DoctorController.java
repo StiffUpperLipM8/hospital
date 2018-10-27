@@ -1,6 +1,6 @@
 package com.ssydorenko.hospital.controller;
 
-import com.ssydorenko.hospital.db.service.DoctorService;
+import com.ssydorenko.hospital.db.service.api.DoctorService;
 import com.ssydorenko.hospital.domain.dto.DoctorDto;
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;

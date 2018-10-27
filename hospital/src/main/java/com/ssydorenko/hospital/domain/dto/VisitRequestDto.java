@@ -19,4 +19,6 @@ public class VisitRequestDto {
 
     private String statusDescription;
 
+    private long doctorId;
+
 }

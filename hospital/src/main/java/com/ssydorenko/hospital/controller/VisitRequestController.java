@@ -1,9 +1,9 @@
 package com.ssydorenko.hospital.controller;
 
-import com.ssydorenko.hospital.db.service.VisitRequestService;
+import com.ssydorenko.hospital.db.service.api.VisitRequestService;
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
-import com.ssydorenko.hospital.domain.enums.RequestStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,24 +21,32 @@ public class VisitRequestController {
     private VisitRequestService visitRequestService;
 
 
-    @PostMapping("/doctor/{doctorId}")
-    public void addVisitRequest(@PathVariable long doctorId, @RequestBody VisitRequestDto visitRequestDto) {
+    @GetMapping("{requestId}")
+    public VisitRequestDto getVisitRequestById(@PathVariable long requestId) {
 
-        visitRequestService.addVisitRequest(doctorId, visitRequestDto);
+        return visitRequestService.getVisitRequestById(requestId);
+    }
+
+
+    @PostMapping()
+    public void addVisitRequest(@RequestBody VisitRequestDto visitRequestDto) {
+
+        visitRequestService.addVisitRequest(visitRequestDto);
     }
 
 
     @PutMapping("{requestId}")
     public void changeStatusOfVisitRequest(@PathVariable long requestId,
-                                           @RequestBody VisitRequestDto visitRequestDto) {
+            @RequestBody VisitRequestDto visitRequestDto) {
 
         visitRequestService.changeStatusOfVisitRequest(requestId, visitRequestDto);
     }
 
-    @GetMapping("{requestId}")
-    public VisitRequestDto getVisitRequestById(@PathVariable long requestId) {
 
-        return visitRequestService.getVisitRequestById(requestId);
+    @DeleteMapping("{requestId")
+    public void deleteVisitRequest(@PathVariable long requestId) {
+
+        visitRequestService.deleteVisitRequestById(requestId);
     }
 
 }

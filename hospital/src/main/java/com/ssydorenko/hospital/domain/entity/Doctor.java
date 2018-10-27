@@ -3,6 +3,7 @@ package com.ssydorenko.hospital.domain.entity;
 import lombok.Data;
 import lombok.experimental.Delegate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class Doctor {
     @Column(nullable = false)
     private String doctorDescription;
 
-    @OneToMany(mappedBy = "doctorId")
+    @OneToMany(mappedBy = "doctorId", cascade = CascadeType.ALL)
     @Delegate
     List<VisitRequest> schedule = new ArrayList<>();
 

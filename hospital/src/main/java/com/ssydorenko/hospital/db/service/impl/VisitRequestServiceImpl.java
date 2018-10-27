@@ -1,6 +1,7 @@
-package com.ssydorenko.hospital.db.service;
+package com.ssydorenko.hospital.db.service.impl;
 
 import com.ssydorenko.hospital.db.repository.VisitRequestRepository;
+import com.ssydorenko.hospital.db.service.api.VisitRequestService;
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
 import com.ssydorenko.hospital.domain.entity.VisitRequest;
 import com.ssydorenko.hospital.domain.enums.RequestStatus;
@@ -8,11 +9,13 @@ import com.ssydorenko.hospital.utils.mapper.VisitRequestMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+
 @Service
-public class VisitRequestService {
+public class VisitRequestServiceImpl implements VisitRequestService {
 
     @Autowired
     private VisitRequestRepository visitRequestRepository;
@@ -21,11 +24,12 @@ public class VisitRequestService {
     private VisitRequestMapper visitRequestMapper;
 
 
-    public void addVisitRequest(long doctorId, VisitRequestDto visitRequestDto) {
+    @Override
+    public void addVisitRequest(VisitRequestDto visitRequestDto) {
 
         VisitRequest visitRequest = visitRequestMapper.toEntity(visitRequestDto);
 
-        visitRequest.setDoctorId(doctorId);
+        visitRequest.setDoctorId(visitRequestDto.getDoctorId());
         visitRequest.setStatus(RequestStatus.NEW);
         visitRequest.setLastStatusChangeDateTime(LocalDateTime.now());
 
@@ -33,18 +37,24 @@ public class VisitRequestService {
     }
 
 
+    @Override
     public VisitRequestDto getVisitRequestById(long visitRequestId) {
+
         VisitRequest visitRequest = visitRequestRepository.getOne(visitRequestId);
         return visitRequestMapper.toDto(visitRequest);
     }
 
 
+    @Override
+    @Transactional
     public void deleteVisitRequestById(long visitRequestId) {
 
         visitRequestRepository.deleteById(visitRequestId);
     }
 
 
+    @Override
+    @Transactional
     public void changeStatusOfVisitRequest(long requestId, VisitRequestDto visitRequestDto) {
 
         VisitRequest visitRequest = visitRequestRepository.getOne(requestId);
@@ -58,6 +68,7 @@ public class VisitRequestService {
 
         visitRequestRepository.save(visitRequest);
     }
+
 
     private boolean isNotBlank(String text) {
 

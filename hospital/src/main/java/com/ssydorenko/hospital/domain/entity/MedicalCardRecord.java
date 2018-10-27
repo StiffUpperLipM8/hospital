@@ -19,7 +19,7 @@ public class MedicalCardRecord {
     private long id;
 
     @Column(nullable = false)
-    private LocalDateTime dateTime;
+    private LocalDateTime dateOfCreation;
 
     @Column(nullable = false)
     private String text;
