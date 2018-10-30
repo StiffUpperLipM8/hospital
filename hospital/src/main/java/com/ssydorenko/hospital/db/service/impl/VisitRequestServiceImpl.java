@@ -62,17 +62,12 @@ public class VisitRequestServiceImpl implements VisitRequestService {
         visitRequest.setStatus(visitRequestDto.getStatus());
         visitRequest.setLastStatusChangeDateTime(LocalDateTime.now());
 
-        if (isNotBlank(visitRequestDto.getStatusDescription())) {
+        if (StringUtils.isNotBlank(visitRequestDto.getStatusDescription())) {
             visitRequest.setStatusDescription(visitRequestDto.getStatusDescription());
         }
 
         visitRequestRepository.save(visitRequest);
     }
 
-
-    private boolean isNotBlank(String text) {
-
-        return StringUtils.isNotBlank(text);
-    }
 
 }

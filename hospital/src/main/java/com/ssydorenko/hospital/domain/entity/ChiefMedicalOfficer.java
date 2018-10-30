@@ -17,10 +17,7 @@ public class ChiefMedicalOfficer {
     private Long id;
 
     @Column(nullable = false)
-    private String firstName;
-
-    @Column(nullable = false)
-    private String lastName;
+    private String fullName;
 
 
 }

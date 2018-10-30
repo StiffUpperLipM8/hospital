@@ -20,10 +20,7 @@ public class Patient {
     private Long id;
 
     @Column(nullable = false)
-    private String firstName;
-
-    @Column(nullable = false)
-    private String lastName;
+    private String fullName;
 
     @OneToOne(cascade = CascadeType.ALL)
     private MedicalCard medicalCard;

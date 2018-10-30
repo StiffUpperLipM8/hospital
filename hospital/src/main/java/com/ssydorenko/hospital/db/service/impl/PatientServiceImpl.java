@@ -1,13 +1,18 @@
 package com.ssydorenko.hospital.db.service.impl;
 
 import com.ssydorenko.hospital.db.repository.PatientRepository;
+import com.ssydorenko.hospital.db.repository.UserEntityRepository;
 import com.ssydorenko.hospital.db.service.api.PatientService;
 import com.ssydorenko.hospital.domain.dto.PatientDto;
 import com.ssydorenko.hospital.domain.entity.MedicalCard;
 import com.ssydorenko.hospital.domain.entity.Patient;
+import com.ssydorenko.hospital.domain.entity.UserEntity;
+import com.ssydorenko.hospital.domain.enums.UserRole;
 import com.ssydorenko.hospital.utils.mapper.PatientMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,6 +27,12 @@ public class PatientServiceImpl implements PatientService {
 
     @Autowired
     private PatientMapper patientMapper;
+
+    @Autowired
+    private UserEntityRepository userEntityRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -43,11 +54,19 @@ public class PatientServiceImpl implements PatientService {
 
         patient.setMedicalCard(medicalCard);
         patientRepository.save(patient);
+
+        String password = passwordEncoder.encode(patientDto.getPassword());
+        UserEntity userEntity = new UserEntity(patientDto.getFullName(), password, UserRole.PATIENT);
+        userEntityRepository.save(userEntity);
     }
 
 
     @Override
+    @Transactional
     public void deletePatientById(long patientId) {
+
+        String patientFullName = patientRepository.getOne(patientId).getFullName();
+        userEntityRepository.deleteById(patientFullName);
 
         patientRepository.deleteById(patientId);
     }
@@ -61,6 +80,7 @@ public class PatientServiceImpl implements PatientService {
 
 
     @Override
+    @Transactional
     public void updatePatientDescription(long patientId, String description) {
 
         Patient patient = patientRepository.getOne(patientId);

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/visit-requests")
+@RequestMapping("/requests")
 public class VisitRequestController {
 
     @Autowired

@@ -1,12 +1,16 @@
 package com.ssydorenko.hospital.db.service.impl;
 
 import com.ssydorenko.hospital.db.repository.DoctorRepository;
+import com.ssydorenko.hospital.db.repository.UserEntityRepository;
 import com.ssydorenko.hospital.db.service.api.DoctorService;
 import com.ssydorenko.hospital.domain.dto.DoctorDto;
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
+import com.ssydorenko.hospital.domain.entity.UserEntity;
+import com.ssydorenko.hospital.domain.enums.UserRole;
 import com.ssydorenko.hospital.utils.mapper.DoctorMapper;
 import com.ssydorenko.hospital.utils.mapper.VisitRequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +29,12 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Autowired
     private VisitRequestMapper visitRequestMapper;
+
+    @Autowired
+    private UserEntityRepository userEntityRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -57,13 +67,21 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public void addDoctor(DoctorDto doctorDto) {
 
+        doctorMapper.toEntity(doctorDto);
         doctorRepository.save(doctorMapper.toEntity(doctorDto));
+
+        String password = passwordEncoder.encode(doctorDto.getPassword());
+        UserEntity userEntity = new UserEntity(doctorDto.getFullName(), password, UserRole.DOCTOR);
+        userEntityRepository.save(userEntity);
     }
 
 
     @Override
     @Transactional
     public void deleteDoctorById(long doctorId) {
+
+        String doctorFullName = doctorRepository.getOne(doctorId).getFullName();
+        userEntityRepository.deleteById(doctorFullName);
 
         doctorRepository.deleteById(doctorId);
     }
