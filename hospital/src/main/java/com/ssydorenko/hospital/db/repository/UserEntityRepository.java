@@ -2,10 +2,14 @@ package com.ssydorenko.hospital.db.repository;
 
 import com.ssydorenko.hospital.domain.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 
 @Repository
 public interface UserEntityRepository extends JpaRepository<UserEntity, String> {
+
+    @Query("SELECT u FROM UserEntity u")
+    UserEntity findById(long id);
 
 }
