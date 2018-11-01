@@ -38,42 +38,43 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable()
+        http
+            .csrf().disable()
             .authorizeRequests()
-            .antMatchers(HttpMethod.GET, "/doctors/**").authenticated()
-            .antMatchers(HttpMethod.POST, "/doctors/**").hasRole(UserRole.CHIEF.toString())
-            .antMatchers(HttpMethod.DELETE, "/doctors/**").hasRole(UserRole.CHIEF.toString())
+                .antMatchers(HttpMethod.GET, "/doctors/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/doctors/**").hasRole(UserRole.CHIEF.toString())
+                .antMatchers(HttpMethod.DELETE, "/doctors/**").hasRole(UserRole.CHIEF.toString())
 
-            .antMatchers(HttpMethod.GET, "/patients/**").hasRole(UserRole.CHIEF.toString())
-            .antMatchers(HttpMethod.GET, "/patients/**").hasRole(UserRole.DOCTOR.toString())
-            .antMatchers(HttpMethod.POST, "/patients/**").hasRole(UserRole.CHIEF.toString())
-            .antMatchers(HttpMethod.POST, "/patients/**").hasRole(UserRole.DOCTOR.toString())
-            .antMatchers(HttpMethod.DELETE, "/patients/**").hasRole(UserRole.CHIEF.toString())
-            .antMatchers(HttpMethod.DELETE, "/patients/**").hasRole(UserRole.DOCTOR.toString())
-            .antMatchers(HttpMethod.PUT, "/patients/**").hasRole(UserRole.CHIEF.toString())
-            .antMatchers(HttpMethod.PUT, "/patients/**").hasRole(UserRole.DOCTOR.toString())
-
-            .antMatchers(HttpMethod.GET, "/records/**").hasRole(UserRole.CHIEF.toString())
-            .antMatchers(HttpMethod.GET, "/records/**").hasRole(UserRole.DOCTOR.toString())
-            .antMatchers(HttpMethod.POST, "/records/**").hasRole(UserRole.CHIEF.toString())
-            .antMatchers(HttpMethod.POST, "/records/**").hasRole(UserRole.DOCTOR.toString())
-            .antMatchers(HttpMethod.DELETE, "/records/**").hasRole(UserRole.CHIEF.toString())
-            .antMatchers(HttpMethod.DELETE, "/records/**").hasRole(UserRole.DOCTOR.toString())
-            .antMatchers(HttpMethod.PUT, "/records/**").hasRole(UserRole.DOCTOR.toString())
-            .antMatchers(HttpMethod.PUT, "/records/**").hasRole(UserRole.CHIEF.toString())
-
-            .antMatchers(HttpMethod.GET, "/requests/**").hasRole(UserRole.CHIEF.toString())
-            .antMatchers(HttpMethod.GET, "/requests/**").hasRole(UserRole.DOCTOR.toString())
-            .antMatchers(HttpMethod.POST, "/requests/**").hasRole(UserRole.CHIEF.toString())
-            .antMatchers(HttpMethod.POST, "/requests/**").hasRole(UserRole.DOCTOR.toString())
-            .antMatchers(HttpMethod.DELETE, "/requests/**").hasRole(UserRole.CHIEF.toString())
-            .antMatchers(HttpMethod.DELETE, "/requests/**").hasRole(UserRole.DOCTOR.toString())
-            .antMatchers(HttpMethod.PUT, "/requests/**").hasRole(UserRole.DOCTOR.toString())
-            .antMatchers(HttpMethod.PUT, "/requests/**").hasRole(UserRole.CHIEF.toString())
+                .antMatchers(HttpMethod.GET, "/patients/**").hasRole(UserRole.CHIEF.toString())
+       //         .antMatchers(HttpMethod.GET, "/patients/**").hasRole(UserRole.DOCTOR.toString())
+//                .antMatchers(HttpMethod.POST, "/patients/**").hasRole(UserRole.CHIEF.toString())
+//                .antMatchers(HttpMethod.POST, "/patients/**").hasRole(UserRole.DOCTOR.toString())
+//                .antMatchers(HttpMethod.DELETE, "/patients/**").hasRole(UserRole.CHIEF.toString())
+//                .antMatchers(HttpMethod.DELETE, "/patients/**").hasRole(UserRole.DOCTOR.toString())
+//                .antMatchers(HttpMethod.PUT, "/patients/**").hasRole(UserRole.CHIEF.toString())
+//                .antMatchers(HttpMethod.PUT, "/patients/**").hasRole(UserRole.DOCTOR.toString())
+//
+//                .antMatchers(HttpMethod.GET, "/records/**").hasRole(UserRole.CHIEF.toString())
+//                .antMatchers(HttpMethod.GET, "/records/**").hasRole(UserRole.DOCTOR.toString())
+//                .antMatchers(HttpMethod.POST, "/records/**").hasRole(UserRole.CHIEF.toString())
+//                .antMatchers(HttpMethod.POST, "/records/**").hasRole(UserRole.DOCTOR.toString())
+//                .antMatchers(HttpMethod.DELETE, "/records/**").hasRole(UserRole.CHIEF.toString())
+//                .antMatchers(HttpMethod.DELETE, "/records/**").hasRole(UserRole.DOCTOR.toString())
+//                .antMatchers(HttpMethod.PUT, "/records/**").hasRole(UserRole.DOCTOR.toString())
+//                .antMatchers(HttpMethod.PUT, "/records/**").hasRole(UserRole.CHIEF.toString())
+//
+//                .antMatchers(HttpMethod.GET, "/requests/**").hasRole(UserRole.CHIEF.toString())
+//                .antMatchers(HttpMethod.GET, "/requests/**").hasRole(UserRole.DOCTOR.toString())
+//                .antMatchers(HttpMethod.POST, "/requests/**").hasRole(UserRole.CHIEF.toString())
+//                .antMatchers(HttpMethod.POST, "/requests/**").hasRole(UserRole.DOCTOR.toString())
+//                .antMatchers(HttpMethod.DELETE, "/requests/**").hasRole(UserRole.CHIEF.toString())
+//                .antMatchers(HttpMethod.DELETE, "/requests/**").hasRole(UserRole.DOCTOR.toString())
+//                .antMatchers(HttpMethod.PUT, "/requests/**").hasRole(UserRole.DOCTOR.toString())
+//                .antMatchers(HttpMethod.PUT, "/requests/**").hasRole(UserRole.CHIEF.toString())
                 .anyRequest().authenticated()
-                .and()
-                .httpBasic()
-                .authenticationEntryPoint(customBasicAuthenticationEntryPoint);
+            .and()
+            .httpBasic()
+            .authenticationEntryPoint(customBasicAuthenticationEntryPoint);
     }
 
 

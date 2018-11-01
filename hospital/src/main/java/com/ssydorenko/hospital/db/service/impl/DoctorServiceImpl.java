@@ -67,6 +67,11 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public void addDoctor(DoctorDto doctorDto) {
 
+        if(doctorRepository.findByFullName(doctorDto.getFullName()) != null) {
+
+            throw new IllegalArgumentException("Doctor with full name " + doctorDto.getFullName() + " already exists");
+        }
+
         doctorMapper.toEntity(doctorDto);
         doctorRepository.save(doctorMapper.toEntity(doctorDto));
 
