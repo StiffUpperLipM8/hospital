@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 public class VisitRequestDto {
 
-    private long id;
+    private Long id;
 
     private String reason;
 
@@ -21,6 +21,6 @@ public class VisitRequestDto {
 
     private String statusDescription;
 
-    private long doctorId;
+    private Long doctorId;
 
 }

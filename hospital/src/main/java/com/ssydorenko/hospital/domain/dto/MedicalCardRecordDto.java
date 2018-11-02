@@ -8,14 +8,14 @@ import java.time.LocalDateTime;
 @Data
 public class MedicalCardRecordDto {
 
-    private long id;
+    private Long id;
 
     private LocalDateTime dateOfCreation;
 
     private String text;
 
-    private long doctorId;
+    private Long doctorId;
 
-    private long medicalCardId;
+    private Long medicalCardId;
 
 }

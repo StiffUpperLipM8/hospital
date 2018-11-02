@@ -1,5 +1,6 @@
 package com.ssydorenko.hospital.db.service.impl;
 
+import com.ssydorenko.hospital.db.repository.DoctorRepository;
 import com.ssydorenko.hospital.db.repository.VisitRequestRepository;
 import com.ssydorenko.hospital.db.service.api.VisitRequestService;
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
@@ -21,11 +22,19 @@ public class VisitRequestServiceImpl implements VisitRequestService {
     private VisitRequestRepository visitRequestRepository;
 
     @Autowired
+    private DoctorRepository doctorRepository;
+
+    @Autowired
     private VisitRequestMapper visitRequestMapper;
 
 
     @Override
     public void addVisitRequest(VisitRequestDto visitRequestDto) {
+
+        if(!doctorRepository.existsById(visitRequestDto.getDoctorId())) {
+
+            throw new IllegalArgumentException("Doctor with id: " + visitRequestDto.getDoctorId() + " does not exist");
+        }
 
         VisitRequest visitRequest = visitRequestMapper.toEntity(visitRequestDto);
 

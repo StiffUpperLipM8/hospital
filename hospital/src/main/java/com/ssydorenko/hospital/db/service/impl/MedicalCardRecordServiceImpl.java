@@ -1,14 +1,15 @@
 package com.ssydorenko.hospital.db.service.impl;
 
 import com.ssydorenko.hospital.db.repository.MedicalCardRecordRepository;
+import com.ssydorenko.hospital.db.repository.MedicalCardRepository;
 import com.ssydorenko.hospital.db.service.api.MedicalCardRecordService;
 import com.ssydorenko.hospital.domain.dto.MedicalCardRecordDto;
 import com.ssydorenko.hospital.domain.entity.MedicalCardRecord;
 import com.ssydorenko.hospital.utils.mapper.MedicalCardRecordMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,9 @@ public class MedicalCardRecordServiceImpl implements MedicalCardRecordService {
 
     @Autowired
     private MedicalCardRecordRepository medicalCardRecordRepository;
+
+    @Autowired
+    private MedicalCardRepository medicalCardRepository;
 
     @Autowired
     private MedicalCardRecordMapper medicalCardRecordMapper;
@@ -43,6 +47,11 @@ public class MedicalCardRecordServiceImpl implements MedicalCardRecordService {
     @Override
     public void addMedicalCardRecord(MedicalCardRecordDto dto) {
 
+        if(!medicalCardRepository.existsById(dto.getMedicalCardId())) {
+
+            throw new IllegalArgumentException("Medical card with id: " + dto.getMedicalCardId() + " does not exist");
+        }
+
         MedicalCardRecord record = medicalCardRecordMapper.toEntity(dto);
         record.setDateOfCreation(LocalDateTime.now());
         medicalCardRecordRepository.save(record);
@@ -54,8 +63,14 @@ public class MedicalCardRecordServiceImpl implements MedicalCardRecordService {
 
         MedicalCardRecord record = medicalCardRecordRepository.getOne(dto.getId());
 
-        record.setText(dto.getText());
-        record.setDoctorId(dto.getDoctorId());
+        if(StringUtils.isNotBlank(dto.getText())) {
+
+            record.setText(dto.getText());
+        }
+        if(dto.getDoctorId() != null) {
+
+            record.setDoctorId(dto.getDoctorId());
+        }
         record.setDateOfCreation(LocalDateTime.now());
 
         medicalCardRecordRepository.save(record);

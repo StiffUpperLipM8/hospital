@@ -4,13 +4,7 @@ import com.ssydorenko.hospital.db.service.api.DoctorService;
 import com.ssydorenko.hospital.domain.dto.DoctorDto;
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -48,6 +42,13 @@ public class DoctorController {
     public void addDoctor(@RequestBody DoctorDto doctorDto) {
 
         doctorService.addDoctor(doctorDto);
+    }
+
+
+    @PutMapping
+    public void updateDoctorDescription(@RequestBody DoctorDto doctorDto) {
+
+        doctorService.updateDoctorDescription(doctorDto);
     }
 
 

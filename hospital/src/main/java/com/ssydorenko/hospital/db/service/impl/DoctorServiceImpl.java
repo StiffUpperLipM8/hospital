@@ -5,6 +5,7 @@ import com.ssydorenko.hospital.db.repository.UserEntityRepository;
 import com.ssydorenko.hospital.db.service.api.DoctorService;
 import com.ssydorenko.hospital.domain.dto.DoctorDto;
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
+import com.ssydorenko.hospital.domain.entity.Doctor;
 import com.ssydorenko.hospital.domain.entity.UserEntity;
 import com.ssydorenko.hospital.domain.enums.UserRole;
 import com.ssydorenko.hospital.utils.mapper.DoctorMapper;
@@ -78,6 +79,16 @@ public class DoctorServiceImpl implements DoctorService {
         String password = passwordEncoder.encode(doctorDto.getPassword());
         UserEntity userEntity = new UserEntity(doctorDto.getFullName(), password, UserRole.DOCTOR);
         userEntityRepository.save(userEntity);
+    }
+
+
+    @Override
+    @Transactional
+    public void updateDoctorDescription(DoctorDto doctorDto) {
+
+        Doctor doctor = doctorRepository.getOne(doctorDto.getId());
+        doctor.setDoctorDescription(doctorDto.getDoctorDescription());
+        doctorRepository.save(doctor);
     }
 
 

@@ -28,7 +28,7 @@ public class VisitRequestController {
     }
 
 
-    @PostMapping()
+    @PostMapping
     public void addVisitRequest(@RequestBody VisitRequestDto visitRequestDto) {
 
         visitRequestService.addVisitRequest(visitRequestDto);
