@@ -11,10 +11,10 @@ public interface PatientService {
 
     void addPatient(PatientDto patientDto);
 
-    void deletePatientById(long patientId);
-
     PatientDto getPatientById(long patientId);
 
     void updatePatientDescription(long patientId, String description);
+
+    void deletePatientById(long patientId);
 
 }

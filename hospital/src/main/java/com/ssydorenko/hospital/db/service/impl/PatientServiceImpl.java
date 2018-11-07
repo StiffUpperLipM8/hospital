@@ -67,17 +67,6 @@ public class PatientServiceImpl implements PatientService {
 
 
     @Override
-    @Transactional
-    public void deletePatientById(long patientId) {
-
-        String patientFullName = patientRepository.getOne(patientId).getFullName();
-        userEntityRepository.deleteById(patientFullName);
-
-        patientRepository.deleteById(patientId);
-    }
-
-
-    @Override
     public PatientDto getPatientById(long patientId) {
 
         return patientMapper.toDto(patientRepository.getOne(patientId));
@@ -91,6 +80,12 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = patientRepository.getOne(patientId);
         patient.getMedicalCard().setPatientDescription(description);
         patientRepository.save(patient);
+    }
+
+
+    @Override public void deletePatientById(long patientId) {
+
+        patientRepository.deleteById(patientId);
     }
 
 }

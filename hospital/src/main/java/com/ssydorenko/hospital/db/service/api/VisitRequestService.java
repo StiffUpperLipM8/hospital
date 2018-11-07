@@ -2,6 +2,8 @@ package com.ssydorenko.hospital.db.service.api;
 
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
 
+import java.util.List;
+
 
 public interface VisitRequestService {
 
@@ -11,6 +13,8 @@ public interface VisitRequestService {
 
     void deleteVisitRequestById(long visitRequestId);
 
-    void changeStatusOfVisitRequest(long requestId, VisitRequestDto visitRequestDto);
+    void changeStatusOfVisitRequest(VisitRequestDto visitRequestDto);
+
+    List<VisitRequestDto> getNewVisitRequests();
 
 }

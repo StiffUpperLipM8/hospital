@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -31,7 +33,7 @@ public class VisitRequestServiceImpl implements VisitRequestService {
     @Override
     public void addVisitRequest(VisitRequestDto visitRequestDto) {
 
-        if(!doctorRepository.existsById(visitRequestDto.getDoctorId())) {
+        if (!doctorRepository.existsById(visitRequestDto.getDoctorId())) {
 
             throw new IllegalArgumentException("Doctor with id: " + visitRequestDto.getDoctorId() + " does not exist");
         }
@@ -64,9 +66,9 @@ public class VisitRequestServiceImpl implements VisitRequestService {
 
     @Override
     @Transactional
-    public void changeStatusOfVisitRequest(long requestId, VisitRequestDto visitRequestDto) {
+    public void changeStatusOfVisitRequest(VisitRequestDto visitRequestDto) {
 
-        VisitRequest visitRequest = visitRequestRepository.getOne(requestId);
+        VisitRequest visitRequest = visitRequestRepository.getOne(visitRequestDto.getId());
 
         visitRequest.setStatus(visitRequestDto.getStatus());
         visitRequest.setLastStatusChangeDateTime(LocalDateTime.now());
@@ -78,5 +80,14 @@ public class VisitRequestServiceImpl implements VisitRequestService {
         visitRequestRepository.save(visitRequest);
     }
 
+
+    @Override
+    public List<VisitRequestDto> getNewVisitRequests() {
+
+        return visitRequestRepository.getNewVisitRequests()
+                .stream()
+                .map(visitRequestMapper::toDto)
+                .collect(Collectors.toList());
+    }
 
 }

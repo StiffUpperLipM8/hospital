@@ -1,5 +1,6 @@
 package com.ssydorenko.hospital.db.service.impl;
 
+import com.ssydorenko.hospital.db.repository.DoctorRepository;
 import com.ssydorenko.hospital.db.repository.MedicalCardRecordRepository;
 import com.ssydorenko.hospital.db.repository.MedicalCardRepository;
 import com.ssydorenko.hospital.db.service.api.MedicalCardRecordService;
@@ -23,6 +24,9 @@ public class MedicalCardRecordServiceImpl implements MedicalCardRecordService {
 
     @Autowired
     private MedicalCardRepository medicalCardRepository;
+
+    @Autowired
+    private DoctorRepository doctorRepository;
 
     @Autowired
     private MedicalCardRecordMapper medicalCardRecordMapper;
@@ -50,6 +54,11 @@ public class MedicalCardRecordServiceImpl implements MedicalCardRecordService {
         if(!medicalCardRepository.existsById(dto.getMedicalCardId())) {
 
             throw new IllegalArgumentException("Medical card with id: " + dto.getMedicalCardId() + " does not exist");
+        }
+
+        if(!doctorRepository.existsById(dto.getDoctorId())) {
+
+            throw new IllegalArgumentException("Doctor with id: " + dto.getDoctorId() + " does not exist");
         }
 
         MedicalCardRecord record = medicalCardRecordMapper.toEntity(dto);

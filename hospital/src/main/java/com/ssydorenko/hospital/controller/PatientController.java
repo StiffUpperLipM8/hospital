@@ -36,6 +36,7 @@ public class PatientController {
         patientService.addPatient(patientDto);
     }
 
+
     @PutMapping("{patientId}")
     public void updatePatientDescription(@PathVariable long patientId, @RequestBody String description) {
 
@@ -43,7 +44,7 @@ public class PatientController {
     }
 
 
-    @DeleteMapping("{patientId")
+    @DeleteMapping("{patientId}")
     public void deletePatientById(@PathVariable long patientId) {
 
         patientService.deletePatientById(patientId);

@@ -2,6 +2,7 @@ package com.ssydorenko.hospital.db.service.impl;
 
 import com.ssydorenko.hospital.db.repository.DoctorRepository;
 import com.ssydorenko.hospital.db.repository.UserEntityRepository;
+import com.ssydorenko.hospital.db.repository.VisitRequestRepository;
 import com.ssydorenko.hospital.db.service.api.DoctorService;
 import com.ssydorenko.hospital.domain.dto.DoctorDto;
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
@@ -26,13 +27,17 @@ public class DoctorServiceImpl implements DoctorService {
     private DoctorRepository doctorRepository;
 
     @Autowired
+    private UserEntityRepository userEntityRepository;
+
+    @Autowired
+    private VisitRequestRepository visitRequestRepository;
+
+    @Autowired
     private DoctorMapper doctorMapper;
 
     @Autowired
     private VisitRequestMapper visitRequestMapper;
 
-    @Autowired
-    private UserEntityRepository userEntityRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -58,7 +63,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public List<VisitRequestDto> getDoctorScheduleByDoctorId(long doctorId) {
 
-        return doctorRepository.getOne(doctorId).getSchedule()
+        return visitRequestRepository.getApprovedRequestsByDoctorId(doctorId)
                 .stream()
                 .map(visitRequestMapper::toDto)
                 .collect(Collectors.toList());

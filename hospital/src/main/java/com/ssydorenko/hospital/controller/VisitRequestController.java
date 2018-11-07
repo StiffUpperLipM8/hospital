@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/requests")
@@ -28,6 +30,13 @@ public class VisitRequestController {
     }
 
 
+    @GetMapping("/new")
+    public List<VisitRequestDto> getNewVisitRequests() {
+
+        return visitRequestService.getNewVisitRequests();
+    }
+
+
     @PostMapping
     public void addVisitRequest(@RequestBody VisitRequestDto visitRequestDto) {
 
@@ -35,15 +44,14 @@ public class VisitRequestController {
     }
 
 
-    @PutMapping("{requestId}")
-    public void changeStatusOfVisitRequest(@PathVariable long requestId,
-            @RequestBody VisitRequestDto visitRequestDto) {
+    @PutMapping
+    public void changeStatusOfVisitRequest(@RequestBody VisitRequestDto visitRequestDto) {
 
-        visitRequestService.changeStatusOfVisitRequest(requestId, visitRequestDto);
+        visitRequestService.changeStatusOfVisitRequest(visitRequestDto);
     }
 
 
-    @DeleteMapping("{requestId")
+    @DeleteMapping("{requestId}")
     public void deleteVisitRequest(@PathVariable long requestId) {
 
         visitRequestService.deleteVisitRequestById(requestId);
