@@ -13,6 +13,7 @@ public interface PatientMapper {
 
     @Mapping(source = "medicalCard.patientDescription", target = "medicalCardDto.patientDescription")
     @Mapping(source = "medicalCard.dateOfRegistration", target = "medicalCardDto.dateOfRegistration")
+    @Mapping(source = "medicalCard.id", target = "medicalCardDto.id")
     PatientDto toDto(Patient entity);
 
 }

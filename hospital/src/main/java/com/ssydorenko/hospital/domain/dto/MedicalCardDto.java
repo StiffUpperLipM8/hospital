@@ -8,6 +8,8 @@ import java.util.List;
 @Data
 public class MedicalCardDto {
 
+    private long id;
+
     private String patientDescription;
 
     private LocalDate dateOfRegistration;
