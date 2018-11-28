@@ -1,46 +1,33 @@
 package com.ssydorenko.hospital.controller;
 
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssydorenko.hospital.db.service.api.DoctorService;
 import com.ssydorenko.hospital.domain.dto.DoctorDto;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-public class DoctorControllerTest {
-
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+public class DoctorControllerTest extends AbstractControllerTest {
 
     @MockBean
     private DoctorService doctorService;
+
+    private static final String DOCTORS_PATH = "/doctors";
 
 
     @Test
     @WithMockUser
     public void getDoctorsShouldInvokeServiceMethod() throws Exception {
 
-        mockMvc.perform(get("/doctors"))
+        mockMvc.perform(get(DOCTORS_PATH))
                 .andExpect(status().isOk());
         verify(doctorService).getDoctors();
     }
@@ -49,7 +36,7 @@ public class DoctorControllerTest {
     @WithMockUser
     public void getDoctorByIdShouldInvokeServiceMethod() throws Exception {
 
-        mockMvc.perform(get("/doctors/1"))
+        mockMvc.perform(get(DOCTORS_PATH + "/1"))
                 .andExpect(status().isOk());
         verify(doctorService).getDoctorById(1);
     }
@@ -58,7 +45,7 @@ public class DoctorControllerTest {
     @WithMockUser
     public void getDoctorScheduleShouldInvokeServiceMethod() throws Exception {
 
-        mockMvc.perform(get("/doctors/1/schedule"))
+        mockMvc.perform(get(DOCTORS_PATH + "/1/schedule"))
                 .andExpect(status().isOk());
         verify(doctorService).getDoctorScheduleByDoctorId(1);
     }
@@ -69,9 +56,9 @@ public class DoctorControllerTest {
 
         DoctorDto doctorDto = new DoctorDto();
 
-        mockMvc.perform(post("/doctors")
+        mockMvc.perform(post(DOCTORS_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(doctorDto)))
+                .content(marshalize(doctorDto)))
                 .andExpect(status().isOk());
 
         verify(doctorService).addDoctor(doctorDto);
@@ -83,9 +70,9 @@ public class DoctorControllerTest {
 
         DoctorDto doctorDto = new DoctorDto();
 
-        mockMvc.perform(put("/doctors")
+        mockMvc.perform(put(DOCTORS_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(doctorDto)))
+                .content(marshalize(doctorDto)))
                 .andExpect(status().isOk());
 
         verify(doctorService).updateDoctorDescription(doctorDto);
@@ -95,9 +82,7 @@ public class DoctorControllerTest {
     @WithMockUser(roles = "CHIEF")
     public void deleteDoctorShouldInvokeServiceMethod() throws Exception {
 
-        DoctorDto doctorDto = new DoctorDto();
-
-        mockMvc.perform(delete("/doctors/1"))
+        mockMvc.perform(delete(DOCTORS_PATH + "/1"))
                 .andExpect(status().isOk());
 
         verify(doctorService).deleteDoctorById(1);
