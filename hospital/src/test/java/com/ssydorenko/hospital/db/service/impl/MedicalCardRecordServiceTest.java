@@ -3,11 +3,13 @@ package com.ssydorenko.hospital.db.service.impl;
 import com.ssydorenko.hospital.db.repository.DoctorRepository;
 import com.ssydorenko.hospital.db.repository.MedicalCardRecordRepository;
 import com.ssydorenko.hospital.db.repository.MedicalCardRepository;
+import com.ssydorenko.hospital.db.service.api.MedicalCardRecordService;
 import com.ssydorenko.hospital.domain.dto.MedicalCardRecordDto;
 import com.ssydorenko.hospital.domain.entity.MedicalCardRecord;
 import com.ssydorenko.hospital.utils.mapper.MedicalCardRecordMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -15,6 +17,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 @RunWith(SpringRunner.class)
@@ -33,6 +40,9 @@ public class MedicalCardRecordServiceTest {
     @Autowired
     private MedicalCardRecordMapper medicalCardRecordMapper;
 
+    @Autowired
+    private MedicalCardRecordService medicalCardRecordService;
+
     private static final long TEST_ID = 1L;
 
 
@@ -40,6 +50,74 @@ public class MedicalCardRecordServiceTest {
     public void getAllRecordsShouldReturnListOfDto() {
 
         List<MedicalCardRecord> records = Collections.singletonList(generateRecord());
+        when(medicalCardRecordRepository.findAll()).thenReturn(records);
+
+        List<MedicalCardRecordDto> result = medicalCardRecordService.getAllMedicalCardRecords();
+        assertEquals(generateRecordDto(), result.get(0));
+    }
+
+
+    @Test
+    public void getRecordByIdShouldReturnRecordDto() {
+
+        when(medicalCardRecordRepository.getOne(TEST_ID)).thenReturn(generateRecord());
+        MedicalCardRecordDto result = medicalCardRecordService.getMedicalCardRecordById(TEST_ID);
+        assertEquals(generateRecordDto(), result);
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void addRecordToNonexistentCardShouldThrowException() {
+
+        medicalCardRecordService.addMedicalCardRecord(generateRecordDto());
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void addRecordToNonexistentDoctorShouldThrowException() {
+
+        when(medicalCardRepository.existsById(TEST_ID)).thenReturn(true);
+        medicalCardRecordService.addMedicalCardRecord(generateRecordDto());
+    }
+
+
+    @Test
+    public void addRecordShouldAddRecordWithCreationDateSet() {
+
+        when(medicalCardRepository.existsById(TEST_ID)).thenReturn(true);
+        when(doctorRepository.existsById(TEST_ID)).thenReturn(true);
+        ArgumentCaptor<MedicalCardRecord> captor = ArgumentCaptor.forClass(MedicalCardRecord.class);
+
+        medicalCardRecordService.addMedicalCardRecord(generateRecordDto());
+
+        verify(medicalCardRecordRepository).save(captor.capture());
+        assertNotNull(captor.getValue().getDateOfCreation());
+    }
+
+
+    @Test
+    public void updateRecordShouldUpdateRecordInfo() {
+
+        MedicalCardRecord record = generateRecord();
+        MedicalCardRecordDto dto = generateRecordDto();
+        when(medicalCardRecordRepository.getOne(TEST_ID)).thenReturn(record);
+
+        dto.setText("updated");
+        dto.setDoctorId(2L);
+        record.setText("updated");
+        record.setDoctorId(2L);
+
+        medicalCardRecordService.updateMedicalCardRecord(dto);
+
+        verify(medicalCardRecordRepository).save(record);
+    }
+
+
+    @Test
+    public void deleteRecordByIdShouldDeleteRecord() {
+
+        medicalCardRecordService.deleteMedicalCardRecordById(TEST_ID);
+        verify(medicalCardRecordRepository).deleteById(TEST_ID);
     }
 
 
@@ -52,6 +130,7 @@ public class MedicalCardRecordServiceTest {
         medicalCardRecord.setText("test");
         return medicalCardRecord;
     }
+
 
     private MedicalCardRecordDto generateRecordDto() {
 
