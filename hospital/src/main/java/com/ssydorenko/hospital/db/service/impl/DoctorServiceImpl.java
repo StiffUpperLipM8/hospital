@@ -103,7 +103,6 @@ public class DoctorServiceImpl implements DoctorService {
 
         String doctorFullName = doctorRepository.getOne(doctorId).getFullName();
         userEntityRepository.deleteById(doctorFullName);
-
         doctorRepository.deleteById(doctorId);
     }
 

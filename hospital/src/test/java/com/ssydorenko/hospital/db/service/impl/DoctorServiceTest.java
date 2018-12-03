@@ -17,7 +17,6 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
@@ -48,9 +47,6 @@ public class DoctorServiceTest {
     @Autowired
     private DoctorMapper doctorMapper;
 
-    @Autowired
-    private PasswordEncoder encoder;
-
     private static final long TEST_ID = 1L;
 
 
@@ -62,7 +58,6 @@ public class DoctorServiceTest {
 
         List<DoctorDto> result = doctorService.getDoctors();
 
-        verify(doctorRepository).findAll();
         assertNotNull(result);
         assertEquals(generateDoctorDto(), result.get(0));
     }
@@ -75,7 +70,6 @@ public class DoctorServiceTest {
 
         DoctorDto result = doctorService.getDoctorById(TEST_ID);
 
-        verify(doctorRepository).getOne(TEST_ID);
         assertEquals(generateDoctorDto(), result);
     }
 
@@ -92,7 +86,6 @@ public class DoctorServiceTest {
 
         List<VisitRequestDto> result = doctorService.getDoctorScheduleByDoctorId(TEST_ID);
 
-        verify(visitRequestRepository).getApprovedRequestsByDoctorId(TEST_ID);
         assertNotNull(result);
         assertEquals(visitRequestDto, result.get(0));
     }
@@ -137,7 +130,6 @@ public class DoctorServiceTest {
 
         doctorService.updateDoctorDescription(doctorDto);
 
-        verify(doctorRepository).getOne(TEST_ID);
         verify(doctorRepository).save(doctor);
     }
 
@@ -149,7 +141,6 @@ public class DoctorServiceTest {
 
         doctorService.deleteDoctorById(TEST_ID);
 
-        verify(doctorRepository).getOne(TEST_ID);
         verify(userEntityRepository).deleteById("test");
         verify(doctorRepository).deleteById(TEST_ID);
     }

@@ -85,6 +85,8 @@ public class PatientServiceImpl implements PatientService {
 
     @Override public void deletePatientById(long patientId) {
 
+        String patientFullName = patientRepository.getOne(patientId).getFullName();
+        userEntityRepository.deleteById(patientFullName);
         patientRepository.deleteById(patientId);
     }
 
