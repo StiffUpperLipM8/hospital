@@ -38,7 +38,6 @@ public class DoctorServiceImpl implements DoctorService {
     @Autowired
     private VisitRequestMapper visitRequestMapper;
 
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
