@@ -78,10 +78,14 @@ public class MedicalCardRecordServiceImpl implements MedicalCardRecordService {
         }
         if(dto.getDoctorId() != null) {
 
+            if(!doctorRepository.existsById(dto.getDoctorId())) {
+
+                throw new IllegalArgumentException("Doctor with id: " + dto.getDoctorId() + " does not exist");
+            }
             record.setDoctorId(dto.getDoctorId());
         }
-        record.setDateOfCreation(LocalDateTime.now());
 
+        record.setDateOfCreation(LocalDateTime.now());
         medicalCardRecordRepository.save(record);
     }
 
