@@ -51,8 +51,7 @@ public class VisitRequestServiceImpl implements VisitRequestService {
     @Override
     public VisitRequestDto getVisitRequestById(long visitRequestId) {
 
-        VisitRequest visitRequest = visitRequestRepository.getOne(visitRequestId);
-        return visitRequestMapper.toDto(visitRequest);
+        return visitRequestMapper.toDto(visitRequestRepository.getOne(visitRequestId));
     }
 
 

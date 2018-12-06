@@ -12,7 +12,6 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Data
-
 public class Patient {
 
     @Id

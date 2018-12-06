@@ -29,7 +29,6 @@ public class PatientControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(get(PATIENTS_PATH))
                 .andExpect(status().isOk());
-
         verify(patientService).getAllPatients();
     }
 
@@ -40,7 +39,6 @@ public class PatientControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(get(PATIENTS_PATH + "/1"))
                 .andExpect(status().isOk());
-
         verify(patientService).getPatientById(1);
     }
 

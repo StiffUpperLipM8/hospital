@@ -18,7 +18,7 @@ public class VisitRequest {
     @Column(nullable = false)
     private String reason;
 
-    @Column
+    @Column(nullable = false)
     private LocalDateTime desiredDatetime;
 
     @Column(nullable = false)

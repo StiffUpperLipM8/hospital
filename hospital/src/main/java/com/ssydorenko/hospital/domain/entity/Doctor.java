@@ -27,7 +27,7 @@ public class Doctor {
     @Column(nullable = false)
     private String doctorDescription;
 
-    @OneToMany(mappedBy = "doctorId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "doctorId", cascade = CascadeType.REMOVE)
     @Delegate
     List<VisitRequest> schedule = new ArrayList<>();
 
