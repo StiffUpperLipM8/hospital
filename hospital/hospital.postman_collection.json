@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ee2ea1b0-c7dc-47b9-86d2-ad03e28819dd",
+		"_postman_id": "a0b571f4-5957-4b24-b0b0-4d6ba83912b0",
 		"name": "hospital",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -192,14 +192,28 @@
 				{
 					"name": "update doctor description",
 					"request": {
-						"method": "GET",
-						"header": [],
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\n\"id\": \"1\", \n\"doctorDescription\": \"updated\"\n}"
 						},
 						"url": {
-							"raw": ""
+							"raw": "localhost:8080/doctors",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"doctors"
+							]
 						}
 					},
 					"response": []
@@ -357,6 +371,29 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "delete patient by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:8080/patients/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"patients",
+								"2"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -373,14 +410,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "localhost:8080/requests/2",
+							"raw": "localhost:8080/requests/4",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"requests",
-								"2"
+								"4"
 							]
 						}
 					},
@@ -433,6 +470,21 @@
 				{
 					"name": "change status of request",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "chief",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{

@@ -101,6 +101,7 @@ public class MedicalCardRecordServiceTest {
         MedicalCardRecord record = generateRecord();
         MedicalCardRecordDto dto = generateRecordDto();
         when(medicalCardRecordRepository.getOne(TEST_ID)).thenReturn(record);
+        when(doctorRepository.existsById(2L)).thenReturn(true);
 
         dto.setText("updated");
         dto.setDoctorId(2L);

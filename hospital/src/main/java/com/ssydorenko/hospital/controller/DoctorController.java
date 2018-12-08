@@ -3,6 +3,7 @@ package com.ssydorenko.hospital.controller;
 import com.ssydorenko.hospital.db.service.api.DoctorService;
 import com.ssydorenko.hospital.domain.dto.DoctorDto;
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
+import com.ssydorenko.hospital.utils.validator.DoctorServiceValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,9 @@ public class DoctorController {
     @Autowired
     private DoctorService doctorService;
 
+    @Autowired
+    private DoctorServiceValidator doctorValidator;
+
 
     @GetMapping
     public List<DoctorDto> getDoctors() {
@@ -27,6 +31,7 @@ public class DoctorController {
     @GetMapping("/{doctorId}")
     public DoctorDto getDoctorById(@PathVariable long doctorId) {
 
+        doctorValidator.validateDoctorIdExists(doctorId);
         return doctorService.getDoctorById(doctorId);
     }
 
@@ -34,6 +39,7 @@ public class DoctorController {
     @GetMapping("/{doctorId}/schedule")
     public List<VisitRequestDto> getDoctorSchedule(@PathVariable long doctorId) {
 
+        doctorValidator.validateDoctorIdExists(doctorId);
         return doctorService.getDoctorScheduleByDoctorId(doctorId);
     }
 
@@ -41,6 +47,7 @@ public class DoctorController {
     @PostMapping
     public void addDoctor(@RequestBody DoctorDto doctorDto) {
 
+        doctorValidator.validateDoctorNameNotExists(doctorDto.getFullName());
         doctorService.addDoctor(doctorDto);
     }
 
@@ -48,6 +55,7 @@ public class DoctorController {
     @PutMapping
     public void updateDoctorDescription(@RequestBody DoctorDto doctorDto) {
 
+        doctorValidator.validateDoctorIdExists(doctorDto.getId());
         doctorService.updateDoctorDescription(doctorDto);
     }
 
@@ -55,6 +63,7 @@ public class DoctorController {
     @DeleteMapping("/{doctorId}")
     public void deleteDoctor(@PathVariable long doctorId) {
 
+        doctorValidator.validateDoctorIdExists(doctorId);
         doctorService.deleteDoctorById(doctorId);
     }
 

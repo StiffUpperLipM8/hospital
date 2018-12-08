@@ -1,8 +1,6 @@
 package com.ssydorenko.hospital.db.service.impl;
 
-import com.ssydorenko.hospital.db.repository.DoctorRepository;
 import com.ssydorenko.hospital.db.repository.MedicalCardRecordRepository;
-import com.ssydorenko.hospital.db.repository.MedicalCardRepository;
 import com.ssydorenko.hospital.db.service.api.MedicalCardRecordService;
 import com.ssydorenko.hospital.domain.dto.MedicalCardRecordDto;
 import com.ssydorenko.hospital.domain.entity.MedicalCardRecord;
@@ -21,12 +19,6 @@ public class MedicalCardRecordServiceImpl implements MedicalCardRecordService {
 
     @Autowired
     private MedicalCardRecordRepository medicalCardRecordRepository;
-
-    @Autowired
-    private MedicalCardRepository medicalCardRepository;
-
-    @Autowired
-    private DoctorRepository doctorRepository;
 
     @Autowired
     private MedicalCardRecordMapper medicalCardRecordMapper;
@@ -51,16 +43,6 @@ public class MedicalCardRecordServiceImpl implements MedicalCardRecordService {
     @Override
     public void addMedicalCardRecord(MedicalCardRecordDto dto) {
 
-        if(!medicalCardRepository.existsById(dto.getMedicalCardId())) {
-
-            throw new IllegalArgumentException("Medical card with id: " + dto.getMedicalCardId() + " does not exist");
-        }
-
-        if(!doctorRepository.existsById(dto.getDoctorId())) {
-
-            throw new IllegalArgumentException("Doctor with id: " + dto.getDoctorId() + " does not exist");
-        }
-
         MedicalCardRecord record = medicalCardRecordMapper.toEntity(dto);
         record.setDateOfCreation(LocalDateTime.now());
         medicalCardRecordRepository.save(record);
@@ -72,16 +54,12 @@ public class MedicalCardRecordServiceImpl implements MedicalCardRecordService {
 
         MedicalCardRecord record = medicalCardRecordRepository.getOne(dto.getId());
 
-        if(StringUtils.isNotBlank(dto.getText())) {
+        if (StringUtils.isNotBlank(dto.getText())) {
 
             record.setText(dto.getText());
         }
-        if(dto.getDoctorId() != null) {
+        if (dto.getDoctorId() != null) {
 
-            if(!doctorRepository.existsById(dto.getDoctorId())) {
-
-                throw new IllegalArgumentException("Doctor with id: " + dto.getDoctorId() + " does not exist");
-            }
             record.setDoctorId(dto.getDoctorId());
         }
 

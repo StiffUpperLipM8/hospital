@@ -47,11 +47,6 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public void addPatient(PatientDto patientDto) {
 
-        if(patientRepository.findByFullName(patientDto.getFullName()) != null) {
-
-            throw new IllegalArgumentException("Patient with full name " + patientDto.getFullName() + " already exists");
-        }
-
         Patient patient = patientMapper.toEntity(patientDto);
 
         MedicalCard medicalCard = new MedicalCard();
@@ -83,7 +78,8 @@ public class PatientServiceImpl implements PatientService {
     }
 
 
-    @Override public void deletePatientById(long patientId) {
+    @Override
+    public void deletePatientById(long patientId) {
 
         String patientFullName = patientRepository.getOne(patientId).getFullName();
         userEntityRepository.deleteById(patientFullName);

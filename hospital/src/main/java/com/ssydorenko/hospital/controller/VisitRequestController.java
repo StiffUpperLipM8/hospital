@@ -2,15 +2,9 @@ package com.ssydorenko.hospital.controller;
 
 import com.ssydorenko.hospital.db.service.api.VisitRequestService;
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
+import com.ssydorenko.hospital.utils.validator.VisitRequestServiceValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,10 +16,13 @@ public class VisitRequestController {
     @Autowired
     private VisitRequestService visitRequestService;
 
+    @Autowired
+    private VisitRequestServiceValidator visitRequestServiceValidator;
 
     @GetMapping("{requestId}")
     public VisitRequestDto getVisitRequestById(@PathVariable long requestId) {
 
+        visitRequestServiceValidator.validateVisitRequestIdExists(requestId);
         return visitRequestService.getVisitRequestById(requestId);
     }
 
@@ -40,6 +37,7 @@ public class VisitRequestController {
     @PostMapping
     public void addVisitRequest(@RequestBody VisitRequestDto visitRequestDto) {
 
+        visitRequestServiceValidator.validateAddRequest(visitRequestDto);
         visitRequestService.addVisitRequest(visitRequestDto);
     }
 
@@ -47,6 +45,7 @@ public class VisitRequestController {
     @PutMapping
     public void changeStatusOfVisitRequest(@RequestBody VisitRequestDto visitRequestDto) {
 
+        visitRequestServiceValidator.validateVisitRequestIdExists(visitRequestDto.getId());
         visitRequestService.changeStatusOfVisitRequest(visitRequestDto);
     }
 
@@ -54,6 +53,7 @@ public class VisitRequestController {
     @DeleteMapping("{requestId}")
     public void deleteVisitRequest(@PathVariable long requestId) {
 
+        visitRequestServiceValidator.validateVisitRequestIdExists(requestId);
         visitRequestService.deleteVisitRequestById(requestId);
     }
 

@@ -2,6 +2,7 @@ package com.ssydorenko.hospital.controller;
 
 import com.ssydorenko.hospital.db.service.api.PatientService;
 import com.ssydorenko.hospital.domain.dto.PatientDto;
+import com.ssydorenko.hospital.utils.validator.PatientServiceValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,8 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
+    @Autowired
+    private PatientServiceValidator patientServiceValidator;
 
     @GetMapping
     public List<PatientDto> getAllPatients() {
@@ -26,6 +29,7 @@ public class PatientController {
     @GetMapping("{patientId}")
     public PatientDto getPatientById(@PathVariable long patientId) {
 
+        patientServiceValidator.validatePatientIdExists(patientId);
         return patientService.getPatientById(patientId);
     }
 
@@ -33,6 +37,7 @@ public class PatientController {
     @PostMapping
     public void addPatient(@RequestBody PatientDto patientDto) {
 
+        patientServiceValidator.validatePatientFullNameNotExists(patientDto.getFullName());
         patientService.addPatient(patientDto);
     }
 
@@ -40,6 +45,7 @@ public class PatientController {
     @PutMapping("{patientId}")
     public void updatePatientDescription(@PathVariable long patientId, @RequestBody String description) {
 
+        patientServiceValidator.validatePatientIdExists(patientId);
         patientService.updatePatientDescription(patientId, description);
     }
 
@@ -47,6 +53,7 @@ public class PatientController {
     @DeleteMapping("{patientId}")
     public void deletePatientById(@PathVariable long patientId) {
 
+        patientServiceValidator.validatePatientIdExists(patientId);
         patientService.deletePatientById(patientId);
     }
 
