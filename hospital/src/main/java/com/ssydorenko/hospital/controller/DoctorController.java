@@ -36,14 +36,6 @@ public class DoctorController {
     }
 
 
-    @GetMapping("/{doctorId}/schedule")
-    public List<VisitRequestDto> getDoctorSchedule(@PathVariable long doctorId) {
-
-        doctorValidator.validateDoctorIdExists(doctorId);
-        return doctorService.getDoctorScheduleByDoctorId(doctorId);
-    }
-
-
     @PostMapping
     public void addDoctor(@RequestBody DoctorDto doctorDto) {
 

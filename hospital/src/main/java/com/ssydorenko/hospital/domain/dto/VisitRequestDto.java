@@ -13,7 +13,7 @@ public class VisitRequestDto {
 
     private String reason;
 
-    private LocalDateTime desiredDatetime;
+    private LocalDateTime requestedDatetime;
 
     private RequestStatus status;
 

@@ -2,16 +2,14 @@ package com.ssydorenko.hospital.controller;
 
 import com.ssydorenko.hospital.db.service.api.MedicalCardRecordService;
 import com.ssydorenko.hospital.domain.dto.MedicalCardRecordDto;
+import com.ssydorenko.hospital.utils.validator.MedicalCardRecordServiceValidator;
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -19,6 +17,9 @@ public class MedicalCardRecordControllerTest extends AbstractControllerTest {
 
     @MockBean
     private MedicalCardRecordService medicalCardRecordService;
+
+    @MockBean
+    private MedicalCardRecordServiceValidator medicalCardRecordServiceValidator;
 
     private static final String RECORDS_PATH = "/records";
 

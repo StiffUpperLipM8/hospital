@@ -66,21 +66,6 @@ public class MedicalCardRecordServiceTest {
     }
 
 
-    @Test(expected = IllegalArgumentException.class)
-    public void addRecordToNonexistentCardShouldThrowException() {
-
-        medicalCardRecordService.addMedicalCardRecord(generateRecordDto());
-    }
-
-
-    @Test(expected = IllegalArgumentException.class)
-    public void addRecordToNonexistentDoctorShouldThrowException() {
-
-        when(medicalCardRepository.existsById(TEST_ID)).thenReturn(true);
-        medicalCardRecordService.addMedicalCardRecord(generateRecordDto());
-    }
-
-
     @Test
     public void addRecordShouldAddRecordWithCreationDateSet() {
 

@@ -58,14 +58,6 @@ public class PatientServiceTest {
     }
 
 
-    @Test(expected = IllegalArgumentException.class)
-    public void addExistingPatientShouldThrowException() {
-
-        when(patientRepository.findByFullName("test")).thenReturn(generatePatient());
-        patientService.addPatient(generatePatientDto());
-    }
-
-
     @Test
     public void addPatientShouldAddPatientAndUserEntity() {
 

@@ -16,6 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,16 +59,6 @@ public class DoctorServiceImpl implements DoctorService {
     public DoctorDto getDoctorById(long doctorId) {
 
         return doctorMapper.toDto(doctorRepository.getOne(doctorId));
-    }
-
-
-    @Override
-    public List<VisitRequestDto> getDoctorScheduleByDoctorId(long doctorId) {
-
-        return visitRequestRepository.getApprovedRequestsByDoctorId(doctorId)
-                .stream()
-                .map(visitRequestMapper::toDto)
-                .collect(Collectors.toList());
     }
 
 

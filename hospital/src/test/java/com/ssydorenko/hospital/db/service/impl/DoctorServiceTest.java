@@ -75,31 +75,6 @@ public class DoctorServiceTest {
 
 
     @Test
-    public void getDoctorScheduleByIdShouldReturnListOfVisitRequestDto() {
-
-        VisitRequestDto visitRequestDto = new VisitRequestDto();
-        visitRequestDto.setId(0L);
-        visitRequestDto.setDoctorId(0L);
-        List<VisitRequest> visitRequests = Collections.singletonList(new VisitRequest());
-
-        when(visitRequestRepository.getApprovedRequestsByDoctorId(TEST_ID)).thenReturn(visitRequests);
-
-        List<VisitRequestDto> result = doctorService.getDoctorScheduleByDoctorId(TEST_ID);
-
-        assertNotNull(result);
-        assertEquals(visitRequestDto, result.get(0));
-    }
-
-
-    @Test(expected = IllegalArgumentException.class)
-    public void addExistingDoctorShouldThrowException() {
-
-        when(doctorRepository.findByFullName("test")).thenReturn(generateDoctor());
-        doctorService.addDoctor(generateDoctorDto());
-    }
-
-
-    @Test
     public void addDoctorShouldAddDoctorAndUserEntity() {
 
         DoctorDto dto = generateDoctorDto();

@@ -25,9 +25,9 @@ public class VisitRequestServiceValidator {
     }
 
 
-    public void validateAddRequest(VisitRequestDto visitRequestDto) {
+    public void validateDoctorIdExists(long doctorId) {
 
-        doctorServiceValidator.validateDoctorIdExists(visitRequestDto.getDoctorId());
+        doctorServiceValidator.validateDoctorIdExists(doctorId);
     }
 
 }

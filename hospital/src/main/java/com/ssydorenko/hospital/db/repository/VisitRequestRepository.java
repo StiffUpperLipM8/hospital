@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -18,5 +19,12 @@ public interface VisitRequestRepository extends JpaRepository<VisitRequest, Long
 
     @Query("SELECT vr FROM VisitRequest vr WHERE vr.status = 0")
     List<VisitRequest> getNewVisitRequests();
+
+
+    @Query("SELECT vr FROM VisitRequest vr WHERE vr.status = 1 AND vr.doctorId = :doctorId " +
+           "AND vr.requestedDatetime BETWEEN :dateTimeStart AND :dateTimeEnd")
+    List<VisitRequest> getApprovedRequestsByDoctorIdForSpecificDate(@Param("doctorId") long doctorId,
+                                                                    @Param("dateTimeStart")LocalDateTime dateTimeStart,
+                                                                    @Param("dateTimeEnd") LocalDateTime dateTimeEnd);
 
 }

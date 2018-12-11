@@ -19,7 +19,7 @@ public class VisitRequest {
     private String reason;
 
     @Column(nullable = false)
-    private LocalDateTime desiredDatetime;
+    private LocalDateTime requestedDatetime;
 
     @Column(nullable = false)
     private long doctorId;

@@ -2,6 +2,7 @@ package com.ssydorenko.hospital.controller;
 
 import com.ssydorenko.hospital.db.service.api.PatientService;
 import com.ssydorenko.hospital.domain.dto.PatientDto;
+import com.ssydorenko.hospital.utils.validator.PatientServiceValidator;
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -19,6 +20,9 @@ public class PatientControllerTest extends AbstractControllerTest {
 
     @MockBean
     private PatientService patientService;
+
+    @MockBean
+    private PatientServiceValidator patientServiceValidator;
 
     private static final String PATIENTS_PATH = "/patients";
 

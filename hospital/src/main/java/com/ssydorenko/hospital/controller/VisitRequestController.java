@@ -37,7 +37,7 @@ public class VisitRequestController {
     @PostMapping
     public void addVisitRequest(@RequestBody VisitRequestDto visitRequestDto) {
 
-        visitRequestServiceValidator.validateAddRequest(visitRequestDto);
+        visitRequestServiceValidator.validateDoctorIdExists(visitRequestDto.getDoctorId());
         visitRequestService.addVisitRequest(visitRequestDto);
     }
 
@@ -55,6 +55,14 @@ public class VisitRequestController {
 
         visitRequestServiceValidator.validateVisitRequestIdExists(requestId);
         visitRequestService.deleteVisitRequestById(requestId);
+    }
+
+
+    @GetMapping("/doctors/{doctorId}/schedule")
+    public List<VisitRequestDto> getDoctorSchedule(@PathVariable long doctorId) {
+
+        visitRequestServiceValidator.validateDoctorIdExists(doctorId);
+        return visitRequestService.getDoctorScheduleByDoctorId(doctorId);
     }
 
 }
