@@ -1,11 +1,11 @@
 package com.ssydorenko.hospital.db.service.impl;
 
 import com.ssydorenko.hospital.db.repository.VisitRequestRepository;
-import com.ssydorenko.hospital.db.service.api.DoctorService;
 import com.ssydorenko.hospital.db.service.api.VisitRequestService;
 import com.ssydorenko.hospital.domain.dto.VisitRequestDto;
 import com.ssydorenko.hospital.domain.entity.VisitRequest;
 import com.ssydorenko.hospital.domain.enums.RequestStatus;
+import com.ssydorenko.hospital.utils.HospitalProperties;
 import com.ssydorenko.hospital.utils.mapper.VisitRequestMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,13 +29,7 @@ public class VisitRequestServiceImpl implements VisitRequestService {
     private VisitRequestMapper visitRequestMapper;
 
     @Autowired
-    private DoctorService doctorService;
-
-    private static final int AVERAGE_APPOINTMENT_TIME_MIN = 30;
-
-    private static final LocalTime WORKING_DAY_START = LocalTime.of(9, 0);
-
-    private static final LocalTime WORKING_DAY_END = LocalTime.of(18, 0);
+    private HospitalProperties properties;
 
 
     @Override
@@ -45,13 +38,9 @@ public class VisitRequestServiceImpl implements VisitRequestService {
         List<VisitRequestDto> scheduleForDay = getDoctorScheduleByDoctorIdForSpecificDate(
                 visitRequestDto.getDoctorId(), visitRequestDto.getRequestedDatetime().toLocalDate());
 
-        if (isRequestedTimeOccupied(visitRequestDto.getRequestedDatetime(), scheduleForDay)) {
-
-            throw new IllegalArgumentException("Sorry the requested time is occupied");
-        }
+        checkIfRequestedTimeOccupied(visitRequestDto.getRequestedDatetime(), scheduleForDay);
 
         VisitRequest visitRequest = visitRequestMapper.toEntity(visitRequestDto);
-
         visitRequest.setDoctorId(visitRequestDto.getDoctorId());
         visitRequest.setStatus(RequestStatus.NEW);
         visitRequest.setLastStatusChangeDateTime(LocalDateTime.now());
@@ -105,8 +94,8 @@ public class VisitRequestServiceImpl implements VisitRequestService {
     @Override
     public List<VisitRequestDto> getDoctorScheduleByDoctorIdForSpecificDate(long doctorId, LocalDate date) {
 
-        LocalDateTime datetimeStart = LocalDateTime.of(date, WORKING_DAY_START);
-        LocalDateTime datetimeEnd = LocalDateTime.of(date, WORKING_DAY_END);
+        LocalDateTime datetimeStart = LocalDateTime.of(date, properties.getWorkingDayStartTime());
+        LocalDateTime datetimeEnd = LocalDateTime.of(date, properties.getWorkingDayEndTime());
 
         return visitRequestRepository.getApprovedRequestsByDoctorIdForSpecificDate(doctorId, datetimeStart, datetimeEnd)
                 .stream()
@@ -125,15 +114,18 @@ public class VisitRequestServiceImpl implements VisitRequestService {
     }
 
 
-    private boolean isRequestedTimeOccupied(LocalDateTime requestedTime, List<VisitRequestDto> scheduleForDay) {
+    private void checkIfRequestedTimeOccupied(LocalDateTime requestedTime, List<VisitRequestDto> scheduleForDay) {
 
-        LocalDateTime intervalStart = requestedTime.minus(AVERAGE_APPOINTMENT_TIME_MIN, ChronoUnit.MINUTES);
-        LocalDateTime intervalEnd = requestedTime.plus(AVERAGE_APPOINTMENT_TIME_MIN, ChronoUnit.MINUTES);
+        LocalDateTime intervalStart = requestedTime.minus(properties.getAverageAppointmentTimeMinutes(), ChronoUnit.MINUTES);
+        LocalDateTime intervalEnd = requestedTime.plus(properties.getAverageAppointmentTimeMinutes(), ChronoUnit.MINUTES);
 
-        return scheduleForDay.stream()
+        boolean isOccupied = scheduleForDay.stream()
                 .anyMatch(vr -> vr.getRequestedDatetime().isAfter(intervalStart) ||
                                 vr.getRequestedDatetime().isBefore(intervalEnd));
-    }
+        if (isOccupied) {
 
+            throw new IllegalArgumentException("Sorry the requested time is occupied");
+        }
+    }
 
 }

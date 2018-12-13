@@ -41,31 +41,34 @@ public class VisitRequestServiceTest {
     @Autowired
     private VisitRequestService visitRequestService;
 
+
     private static final long TEST_ID = 1L;
 
-
-//    @Test
-//    public void addRequestShouldAddRequestWithParametersSet() {
-//
-//        ArgumentCaptor<VisitRequest> captor = ArgumentCaptor.forClass(VisitRequest.class);
-//        VisitRequestDto dto = generateVisitRequestDto();
-//        when(doctorRepository.existsById(TEST_ID)).thenReturn(true);
-//
-//        visitRequestService.addVisitRequest(dto);
-//
-//        verify(visitRequestRepository).save(captor.capture());
-//        assertEquals(RequestStatus.NEW, captor.getValue().getStatus());
-//        assertNotNull(captor.getValue().getLastStatusChangeDateTime());
-//    }
+    private static final LocalDateTime TEST_DATETIME = LocalDateTime.of(2018, 12, 12, 12, 0, 0);
 
 
-//    @Test
-//    public void getRequestByIdShouldReturnRequestDto() {
-//
-//        when(visitRequestRepository.getOne(TEST_ID)).thenReturn(generateVisitRequest());
-//        VisitRequestDto dto = visitRequestService.getVisitRequestById(TEST_ID);
-//        assertNotNull(dto);
-//    }
+    @Test
+    public void addRequestShouldAddRequestWithParametersSet() {
+
+        ArgumentCaptor<VisitRequest> captor = ArgumentCaptor.forClass(VisitRequest.class);
+        VisitRequestDto dto = generateVisitRequestDto();
+        when(doctorRepository.existsById(TEST_ID)).thenReturn(true);
+
+        visitRequestService.addVisitRequest(dto);
+
+        verify(visitRequestRepository).save(captor.capture());
+        assertEquals(RequestStatus.NEW, captor.getValue().getStatus());
+        assertNotNull(captor.getValue().getLastStatusChangeDateTime());
+    }
+
+
+    @Test
+    public void getRequestByIdShouldReturnRequestDto() {
+
+        when(visitRequestRepository.getOne(TEST_ID)).thenReturn(generateVisitRequest());
+        VisitRequestDto dto = visitRequestService.getVisitRequestById(TEST_ID);
+        assertNotNull(dto);
+    }
 
 
     @Test
@@ -90,28 +93,28 @@ public class VisitRequestServiceTest {
     }
 
 
-//        @Test
-//    public void getDoctorScheduleByIdShouldReturnListOfVisitRequestDto() {
-//
-//        VisitRequestDto visitRequestDto = new VisitRequestDto();
-//        visitRequestDto.setId(0L);
-//        visitRequestDto.setDoctorId(0L);
-//        List<VisitRequest> visitRequests = Collections.singletonList(new VisitRequest());
-//
-//        when(visitRequestRepository.getApprovedRequestsByDoctorId(TEST_ID)).thenReturn(visitRequests);
-//
-//        List<VisitRequestDto> result = visitRequestService.getDoctorScheduleByDoctorId(TEST_ID);
-//
-//        assertNotNull(result);
-//        assertEquals(visitRequestDto, result.get(0));
-//    }
+    @Test
+    public void getDoctorScheduleByIdShouldReturnListOfVisitRequestDto() {
+
+        VisitRequestDto visitRequestDto = new VisitRequestDto();
+        visitRequestDto.setId(0L);
+        visitRequestDto.setDoctorId(0L);
+        List<VisitRequest> visitRequests = Collections.singletonList(new VisitRequest());
+
+        when(visitRequestRepository.getApprovedRequestsByDoctorId(TEST_ID)).thenReturn(visitRequests);
+
+        List<VisitRequestDto> result = visitRequestService.getDoctorScheduleByDoctorId(TEST_ID);
+
+        assertNotNull(result);
+        assertEquals(visitRequestDto, result.get(0));
+    }
 
     private VisitRequestDto generateVisitRequestDto() {
 
         VisitRequestDto dto = new VisitRequestDto();
         dto.setId(TEST_ID);
         dto.setDoctorId(TEST_ID);
-        dto.setRequestedDatetime(LocalDateTime.now());
+        dto.setRequestedDatetime(TEST_DATETIME);
         dto.setStatus(RequestStatus.APPROVED);
         dto.setReason("test");
         return dto;
@@ -123,7 +126,7 @@ public class VisitRequestServiceTest {
         visitRequest.setStatus(RequestStatus.NEW);
         visitRequest.setReason("test");
         visitRequest.setDoctorId(TEST_ID);
-        visitRequest.setLastStatusChangeDateTime(LocalDateTime.now());
+        visitRequest.setLastStatusChangeDateTime(TEST_DATETIME);
         return visitRequest;
     }
 }

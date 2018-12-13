@@ -37,7 +37,7 @@ public class VisitRequestController {
     @PostMapping
     public void addVisitRequest(@RequestBody VisitRequestDto visitRequestDto) {
 
-        visitRequestServiceValidator.validateDoctorIdExists(visitRequestDto.getDoctorId());
+        visitRequestServiceValidator.validateAddRequest(visitRequestDto);
         visitRequestService.addVisitRequest(visitRequestDto);
     }
 
