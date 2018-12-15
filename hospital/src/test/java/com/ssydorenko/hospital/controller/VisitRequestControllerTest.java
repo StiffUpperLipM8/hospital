@@ -32,6 +32,7 @@ public class VisitRequestControllerTest extends AbstractControllerTest {
 
         mockMvc.perform((get(REQUESTS_PATH + "/1")))
                 .andExpect(status().isOk());
+
         verify(visitRequestService).getVisitRequestById(1);
     }
 
@@ -42,6 +43,7 @@ public class VisitRequestControllerTest extends AbstractControllerTest {
 
         mockMvc.perform((get(REQUESTS_PATH + "/new")))
                 .andExpect(status().isOk());
+
         verify(visitRequestService).getNewVisitRequests();
     }
 
@@ -84,6 +86,7 @@ public class VisitRequestControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(get(REQUESTS_PATH + "/doctors/1/schedule"))
                 .andExpect(status().isOk());
+
         verify(visitRequestService).getDoctorScheduleByDoctorId(1);
     }
 

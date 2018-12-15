@@ -67,9 +67,7 @@ public class DoctorServiceTest {
     public void getDoctorByIdShouldReturnDoctorDto() {
 
         when(doctorRepository.getOne(TEST_ID)).thenReturn(generateDoctor());
-
         DoctorDto result = doctorService.getDoctorById(TEST_ID);
-
         assertEquals(generateDoctorDto(), result);
     }
 

@@ -80,9 +80,7 @@ public class PatientServiceTest {
     public void getPatientByIdShouldReturnPatientDto() {
 
         when(patientRepository.getOne(TEST_ID)).thenReturn(generatePatient());
-
         PatientDto result = patientService.getPatientById(TEST_ID);
-
         assertEquals(generatePatientDto(), result);
     }
 

@@ -18,6 +18,7 @@ public class MedicalCardRecordController {
     @Autowired
     private MedicalCardRecordServiceValidator medicalCardRecordServiceValidator;
 
+
     @GetMapping
     public List<MedicalCardRecordDto> getAllRecords() {
 

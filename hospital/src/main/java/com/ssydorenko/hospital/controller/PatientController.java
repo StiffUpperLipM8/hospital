@@ -19,6 +19,7 @@ public class PatientController {
     @Autowired
     private PatientServiceValidator patientServiceValidator;
 
+
     @GetMapping
     public List<PatientDto> getAllPatients() {
 

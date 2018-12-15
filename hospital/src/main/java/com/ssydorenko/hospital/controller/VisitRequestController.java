@@ -19,6 +19,7 @@ public class VisitRequestController {
     @Autowired
     private VisitRequestServiceValidator visitRequestServiceValidator;
 
+
     @GetMapping("{requestId}")
     public VisitRequestDto getVisitRequestById(@PathVariable long requestId) {
 

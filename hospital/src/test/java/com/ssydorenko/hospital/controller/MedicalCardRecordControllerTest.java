@@ -30,6 +30,7 @@ public class MedicalCardRecordControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(get(RECORDS_PATH))
                 .andExpect(status().isOk());
+
         verify(medicalCardRecordService).getAllMedicalCardRecords();
     }
 
@@ -40,6 +41,7 @@ public class MedicalCardRecordControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(get(RECORDS_PATH + "/1"))
                 .andExpect(status().isOk());
+
         verify(medicalCardRecordService).getMedicalCardRecordById(1);
     }
 
@@ -80,6 +82,7 @@ public class MedicalCardRecordControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(delete(RECORDS_PATH + "/1"))
                 .andExpect(status().isOk());
+
         verify(medicalCardRecordService).deleteMedicalCardRecordById(1);
     }
 

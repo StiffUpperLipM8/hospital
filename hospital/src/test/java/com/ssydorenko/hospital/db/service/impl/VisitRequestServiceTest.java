@@ -127,6 +127,7 @@ public class VisitRequestServiceTest {
         visitRequest.setReason("test");
         visitRequest.setDoctorId(TEST_ID);
         visitRequest.setLastStatusChangeDateTime(TEST_DATETIME);
+        visitRequest.setRequestedDatetime(TEST_DATETIME);
         return visitRequest;
     }
 }
