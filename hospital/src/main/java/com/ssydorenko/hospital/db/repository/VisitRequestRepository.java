@@ -26,5 +26,4 @@ public interface VisitRequestRepository extends JpaRepository<VisitRequest, Long
     List<VisitRequest> getApprovedRequestsByDoctorIdForSpecificDate(@Param("doctorId") long doctorId,
                                                                     @Param("dateTimeStart")LocalDateTime dateTimeStart,
                                                                     @Param("dateTimeEnd") LocalDateTime dateTimeEnd);
-
 }

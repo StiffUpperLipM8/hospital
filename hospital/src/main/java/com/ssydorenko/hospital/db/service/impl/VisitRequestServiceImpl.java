@@ -35,10 +35,7 @@ public class VisitRequestServiceImpl implements VisitRequestService {
     @Override
     public void addVisitRequest(VisitRequestDto visitRequestDto) {
 
-        List<VisitRequestDto> scheduleForDay = getDoctorScheduleByDoctorIdForSpecificDate(
-                visitRequestDto.getDoctorId(), visitRequestDto.getRequestedDatetime().toLocalDate());
-
-        checkIfRequestedTimeOccupied(visitRequestDto.getRequestedDatetime(), scheduleForDay);
+        checkIfRequestedTimeOccupied(visitRequestDto);
 
         VisitRequest visitRequest = visitRequestMapper.toEntity(visitRequestDto);
         visitRequest.setDoctorId(visitRequestDto.getDoctorId());
@@ -69,6 +66,13 @@ public class VisitRequestServiceImpl implements VisitRequestService {
     public void changeStatusOfVisitRequest(VisitRequestDto visitRequestDto) {
 
         VisitRequest visitRequest = visitRequestRepository.getOne(visitRequestDto.getId());
+
+        if(visitRequestDto.getStatus().equals(RequestStatus.APPROVED)) {
+
+            visitRequestDto.setDoctorId(visitRequest.getDoctorId());
+            visitRequestDto.setRequestedDatetime(visitRequest.getRequestedDatetime());
+            checkIfRequestedTimeOccupied(visitRequestDto);
+        }
 
         visitRequest.setStatus(visitRequestDto.getStatus());
         visitRequest.setLastStatusChangeDateTime(LocalDateTime.now());
@@ -114,18 +118,36 @@ public class VisitRequestServiceImpl implements VisitRequestService {
     }
 
 
-    private void checkIfRequestedTimeOccupied(LocalDateTime requestedTime, List<VisitRequestDto> scheduleForDay) {
+    private void checkIfRequestedTimeOccupied(VisitRequestDto visitRequestDto) {
 
-        LocalDateTime intervalStart = requestedTime.minus(properties.getAverageAppointmentTimeMinutes(), ChronoUnit.MINUTES);
-        LocalDateTime intervalEnd = requestedTime.plus(properties.getAverageAppointmentTimeMinutes(), ChronoUnit.MINUTES);
+        List<VisitRequestDto> scheduleForDay = getDoctorScheduleByDoctorIdForSpecificDate(
+                visitRequestDto.getDoctorId(), visitRequestDto.getRequestedDatetime().toLocalDate());
 
-        boolean isOccupied = scheduleForDay.stream()
-                .anyMatch(vr -> vr.getRequestedDatetime().isAfter(intervalStart) ||
-                                vr.getRequestedDatetime().isBefore(intervalEnd));
+        LocalDateTime requestedTime = visitRequestDto.getRequestedDatetime();
+        boolean isOccupied = false;
+
+        for (VisitRequestDto dto : scheduleForDay) {
+            LocalDateTime occupiedTime = dto.getRequestedDatetime();
+
+            if (occupiedTime.isBefore(requestedTime)) {
+                isOccupied = isAfterWithOffset(occupiedTime, requestedTime);
+            }
+            else {
+                isOccupied = isAfterWithOffset(requestedTime, occupiedTime);
+            }
+        }
+
         if (isOccupied) {
 
             throw new IllegalArgumentException("Sorry the requested time is occupied");
         }
+    }
+
+
+    private boolean isAfterWithOffset(LocalDateTime timeBefore, LocalDateTime timeAfter) {
+
+        return timeBefore.plus(properties.getAverageAppointmentTimeMinutes(), ChronoUnit.MINUTES)
+                                         .isAfter(timeAfter);
     }
 
 }

@@ -10,6 +10,7 @@
 
 In order to run application locally:
 1. Create 'hospital' DB
-2. Run app with IDE
-3. Import 'hospital.postman-collection.json' into Postman
-4. Use requests to check application's functionality
+2. Insert row from data.sql file into user_entity table
+3. Run app with IDE
+4. Import 'hospital.postman-collection.json' into Postman
+5. Use requests to check application's functionality
